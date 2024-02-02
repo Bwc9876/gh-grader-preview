@@ -1,5 +1,4 @@
 use std::{
-    env,
     io::{Read, Write},
     process::{Command, Stdio},
     time::Duration,
@@ -40,8 +39,7 @@ where
 }
 
 pub fn run_phase(cmd: &str, input: &str, timeout: u64) -> Result<TestResult> {
-    let shell = env::var("SHELL").map_err(|_| anyhow!("SHELL environment variable not set"))?;
-    let mut child = Command::new(shell)
+    let mut child = Command::new("bash")
         .arg("-c")
         .arg(cmd)
         .stdin(Stdio::piped())
@@ -57,7 +55,7 @@ pub fn run_phase(cmd: &str, input: &str, timeout: u64) -> Result<TestResult> {
 
     write!(stdin, "{input}").map_err(|e| anyhow!("Failed to write to stdin: {e:?}"))?;
 
-    let duration = Duration::from_secs(timeout);
+    let duration = Duration::from_secs(timeout * 60);
 
     let res = child.wait_timeout(duration);
 

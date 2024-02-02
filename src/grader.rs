@@ -7,9 +7,10 @@ use super::runner;
 
 const AUTO_GRADER_DEFAULT_PATH: &str = ".github/classroom/autograding.json";
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum ComparisonType {
+    #[default]
     Included,
     Excluded,
     Regex,
