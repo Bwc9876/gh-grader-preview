@@ -7,10 +7,22 @@ use std::{
 use anyhow::{anyhow, Result};
 use wait_timeout::ChildExt;
 
+#[cfg(not(windows))]
+fn spawn_cmd(cmd: &str) -> Command {
+    let mut command = Command::new("bash");
+    command.arg("-c").arg(cmd);
+    command
+}
+
+#[cfg(windows)]
+fn spawn_cmd(cmd: &str) -> Command {
+    let mut command = Command::new("PowerShell");
+    command.arg("-Command").arg(cmd);
+    command
+}
+
 pub fn setup_phase(cmd: &str) -> Result<()> {
-    let mut child = Command::new("bash")
-        .arg("-c")
-        .arg(cmd)
+    let mut child = spawn_cmd(cmd)
         .spawn()
         .map_err(|e| anyhow!("Failed to spawn shell: {e:?}"))?;
 
@@ -39,9 +51,7 @@ where
 }
 
 pub fn run_phase(cmd: &str, input: &str, timeout: u64) -> Result<TestResult> {
-    let mut child = Command::new("bash")
-        .arg("-c")
-        .arg(cmd)
+    let mut child = spawn_cmd(cmd)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
