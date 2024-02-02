@@ -15,7 +15,7 @@
         };
         doCheck = false;
         meta = with nixpkgs.legacyPackages.x86_64-linux.lib; {
-            description = "CLI version of the mod manager for Outer Wilds Mod Loader";
+            description = "Simple program for previewing how GitHub Classroom runs your project ";
             homepage = "https://github.com/Bwc9876/gh-grader-preview";
             mainProgram = "gh-grader-preview";
             license = licenses.mit;
