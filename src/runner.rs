@@ -9,8 +9,7 @@ use anyhow::{anyhow, Result};
 use wait_timeout::ChildExt;
 
 pub fn setup_phase(cmd: &str) -> Result<()> {
-    let shell = env::var("SHELL").map_err(|_| anyhow!("SHELL environment variable not set"))?;
-    let mut child = Command::new(shell)
+    let mut child = Command::new("bash")
         .arg("-c")
         .arg(cmd)
         .spawn()

@@ -2,7 +2,8 @@
 
 Simple program that runs test cases specified in an autograding.json file and reports results. Useful for previewing how GitHub will run your autograder and project.
 
-Currently this relies on you setting `SHELL` in your environment meaning Windows won't work.
+This will only work on Linux as it uses `bash`. Also most GitHub auto-graders runs on the Ubuntu runner image so the commands
+are gonna be Linux specific anyway.
 
 ## Usage
 
