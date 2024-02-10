@@ -2,7 +2,8 @@
 
 Simple program that runs test cases specified in an autograding.json file and reports results. Useful for previewing how GitHub will run your autograder and project.
 
-> [!INFO]
+> [!WARNING]
+> 
 > While this works on Windows, the GitHub classroom runner uses Linux by default, and so some professors may write commands
 > specific to Linux meaning they won't work for you.
 
