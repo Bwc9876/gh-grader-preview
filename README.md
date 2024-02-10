@@ -21,8 +21,22 @@ You can specify `-f` to choose a different file.
 gh-grader-preview -f some/other/dir/autograding.json
 ```
 
+To see output from the test cases, use the `-v` flag.
+
+```sh
+gh-grader-preview -v
+```
+
 For more information, run `gh-grader-preview -h`.
 
 ## Building
 
 `cargo build --release`
+
+### Installation
+
+Copy the binary from `target/release/gh-grader-preview` to a directory in your PATH.
+
+Run `gh-grader-preview --man-page` to print the man page to stdout, and then save it to a file.
+
+Run `gh-grader-preview --completions=SHELL` (replace `SHELL` with `bash`, `fish`, or `zsh`) to generate a shell completion script.
