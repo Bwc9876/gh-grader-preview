@@ -27,4 +27,14 @@ pub struct Cli {
         help = "Skip the first X tests, useful if you have tests that are purely informational"
     )]
     pub skip: Option<usize>,
+    #[arg(
+        long = "man-page",
+        help = "Print the manpage for this command to stdout"
+    )]
+    pub man_gen: bool,
+    #[arg(
+        long = "completions",
+        help = "Prints out the completions for the shell specified"
+    )]
+    pub completions: Option<String>,
 }

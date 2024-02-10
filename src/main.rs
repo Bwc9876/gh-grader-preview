@@ -1,5 +1,6 @@
 mod cli;
 mod grader;
+mod meta;
 mod runner;
 
 use std::time::Duration;
@@ -13,6 +14,14 @@ use indicatif::ProgressBar;
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
+
+    if cli.man_gen {
+        println!("{}", meta::gen_man_page());
+        return Ok(());
+    } else if let Some(shell) = cli.completions {
+        println!("{}", meta::gen_completions(shell.parse().unwrap()));
+        return Ok(());
+    }
 
     let grader_data = AutoGraderData::get(cli.file)?;
 
