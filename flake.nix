@@ -10,6 +10,7 @@
         pname = "gh-grader-preview";
         version = "0.2.0";
         src = ./.;
+        useFetchCargoVendor = true;
         cargoLock = {
             lockFile = ./Cargo.lock;
         };
