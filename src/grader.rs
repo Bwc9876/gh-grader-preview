@@ -58,7 +58,7 @@ impl TestCase {
         match self.comparison {
             ComparisonType::Included => Ok(output.contains(&self.output)),
             ComparisonType::Excluded => Ok(!output.contains(&self.output)),
-            ComparisonType::Exact => Ok(output == self.output),
+            ComparisonType::Exact => Ok(output.trim() == self.output.trim()),
             ComparisonType::Regex => {
                 let re = regex::Regex::new(&self.output)?;
                 Ok(re.is_match(&output))
