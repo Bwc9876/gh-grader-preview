@@ -13,6 +13,7 @@ pub enum ComparisonType {
     #[default]
     Included,
     Excluded,
+    Exact,
     Regex,
 }
 
@@ -56,6 +57,7 @@ impl TestCase {
         match self.comparison {
             ComparisonType::Included => Ok(output.contains(&self.output)),
             ComparisonType::Excluded => Ok(!output.contains(&self.output)),
+            ComparisonType::Exact => Ok(output == self.output),
             ComparisonType::Regex => {
                 let re = regex::Regex::new(&self.output)?;
                 Ok(re.is_match(&output))
