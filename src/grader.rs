@@ -22,6 +22,7 @@ pub struct TestCase {
     pub name: String,
     pub setup: String,
     pub run: String,
+    #[serde(default)]
     pub input: String,
     pub output: String,
     pub comparison: ComparisonType,
