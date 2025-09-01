@@ -1,0 +1,46 @@
+
+on: 
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Version Tag
+        type: string
+    
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v5
+
+      - name: Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Build 
+        run: |
+          cargo build --release
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "gh-grader-preview"
+          path: "target/release/gh-grader-preview"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: GH Grader Preview ${{ inputs.tag }}
+          tag_name: v${{ inputs.tag }}
+          generate_release_notes: false
+          draft: true
+          files: |
+            target/release/gh-grader-preview
+
+
+
