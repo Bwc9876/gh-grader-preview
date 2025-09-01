@@ -9,8 +9,8 @@ use wait_timeout::ChildExt;
 
 #[cfg(not(windows))]
 fn spawn_cmd(cmd: &str) -> Command {
-    let mut command = Command::new("bash");
-    command.arg("-c").arg(cmd);
+    let mut command = Command::new("/usr/bin/env");
+    command.arg("sh").arg("-c").arg(cmd);
     command
 }
 

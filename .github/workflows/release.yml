@@ -1,14 +1,11 @@
-
 name: Release
-on: 
+on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: Version Tag
-        type: string
-    
+
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 jobs:
   release:
@@ -23,9 +20,31 @@ jobs:
         with:
           toolchain: stable
 
-      - name: Build 
+      - name: Get Metadata
+        id: metadata
         run: |
-          cargo build --release
+          echo "meta=$(cargo metadata --no-deps --frozen --format-version 1)" >> $GITHUB_OUTPUT
+
+      - name: Check Tag
+        id: check-tag
+        run: |
+          echo "exists=$(git ls-remote --exit-code --tags origin ${{ env.TAG }} >/dev/null 2>&1 && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "tag=${{ env.TAG }}" >> $GITHUB_OUTPUT
+        env:
+          TAG: "v${{fromJson(steps.metadata.outputs.meta).packages[0].version}}"
+
+      - name: Block if There's a Release
+        if: ${{ steps.check-tag.outputs.exists != 'false' }}
+        run: echo "::error file=Cargo.toml,title=Refusing to Release::Tag ${{ steps.check-tag.outputs.tag }} already exists" && exit 1
+
+      - name: Build
+        run: |
+          cargo build --frozen --release
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'target/release/gh-grader-preview'
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
@@ -36,12 +55,9 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          name: GH Grader Preview ${{ inputs.tag }}
-          tag_name: v${{ inputs.tag }}
+          name: GH Grader Preview ${{ steps.check-tag.outputs.tag }}
+          tag_name: ${{ steps.check-tag.outputs.tag }}
           generate_release_notes: false
           draft: true
           files: |
             target/release/gh-grader-preview
-
-
-
