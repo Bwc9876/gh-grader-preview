@@ -27,6 +27,7 @@ pub struct TestCase {
     pub output: String,
     pub comparison: ComparisonType,
     pub timeout: u32,
+    #[allow(unused)]
     pub points: Option<u32>,
 }
 
