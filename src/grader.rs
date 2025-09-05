@@ -72,14 +72,16 @@ impl AutoGraderData {
 }
 
 impl TestCase {
-    pub fn check_output(&self, output: String) -> Result<bool> {
+    fn check_output(&self, output: String) -> Result<bool> {
         if let Some(ref expected_output) = self.output {
+            let expected_output = expected_output.replace("\r\n", "\n");
+
             match self.comparison {
-                ComparisonType::Included => Ok(output.contains(expected_output)),
-                ComparisonType::Excluded => Ok(!output.contains(expected_output)),
+                ComparisonType::Included => Ok(output.contains(&expected_output)),
+                ComparisonType::Excluded => Ok(!output.contains(&expected_output)),
                 ComparisonType::Exact => Ok(output.trim() == expected_output.trim()),
                 ComparisonType::Regex => {
-                    let re = regex::Regex::new(expected_output)?;
+                    let re = regex::Regex::new(&expected_output)?;
                     Ok(re.is_match(&output))
                 }
                 ComparisonType::Pass => Ok(true),
@@ -94,7 +96,8 @@ impl TestCase {
             runner::setup_phase(setup)?;
         }
         let res = runner::run_phase(&self.run, &self.input, self.timeout as u64)?;
-        let matches = self.check_output(res.stdout.clone())?;
+        let output = res.stdout.replace("\r\n", "\n");
+        let matches = self.check_output(output)?;
         Ok((matches, res))
     }
 }
