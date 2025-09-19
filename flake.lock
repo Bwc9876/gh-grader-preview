@@ -22,11 +22,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1757940502,
-        "narHash": "sha256-Xm0YaqIn11duN7EkFLQs0YDLWC0+rEdsE1RuQ4VABmU=",
+        "lastModified": 1758214611,
+        "narHash": "sha256-5YLeUhF7Nu85fNi5ElWexJ4ViiY041I0mBLLzOhg2DQ=",
         "owner": "nix-community",
         "repo": "flakelight",
-        "rev": "71a933a4ce3683ba5f2bfabace834dd99f6c426a",
+        "rev": "464ab0a32efcc4310eef119cfc6c470e267cd42a",
         "type": "github"
       },
       "original": {
@@ -38,7 +38,9 @@
     "flakelight-rust": {
       "inputs": {
         "crane": "crane",
-        "flakelight": "flakelight"
+        "flakelight": [
+          "flakelight"
+        ]
       },
       "locked": {
         "lastModified": 1758026969,
@@ -72,6 +74,7 @@
     },
     "root": {
       "inputs": {
+        "flakelight": "flakelight",
         "flakelight-rust": "flakelight-rust",
         "nixpkgs": "nixpkgs"
       }
