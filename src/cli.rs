@@ -1,4 +1,4 @@
-use clap::{command, Parser};
+use clap::Parser;
 
 #[derive(Parser)]
 #[command(name="gh-grader-preview", author, version, about, long_about = None)]
