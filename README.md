@@ -8,7 +8,7 @@ project.
 >
 > While this works on Windows, the GitHub classroom runner uses Linux by
 > default, and so some professors may write commands specific to Linux meaning
-> they won't work for you.
+> they won't work for you. You can try running this in WSL.
 
 ## Usage
 
